@@ -1,5 +1,7 @@
 package b_lists.utils;
 
+import java.util.Arrays;
+
 public class DynamicArray {
     private static final int EXPANSION_MULTIPLIER = 2;
     private int size = 0;
@@ -80,4 +82,35 @@ public class DynamicArray {
         data[index] = value;
         size++;
     }
+    public void removeDuplicates(){
+        Arrays.sort(data, 0, size);
+        int startPoint = 0;
+        int endPoint = 1;
+        while(endPoint < size){
+            if(data[startPoint] == data[endPoint]){
+                remove(endPoint);
+            }else {
+                startPoint++;
+                endPoint++;
+            }
+        }
+    }
+
+    public void revisedDupRemoval(){
+        if(size <= 1){
+            return;
+        }
+
+        Arrays.sort(data, 0, size);
+
+        int writeIndex = 1;
+
+        for(int readIndex = 1; readIndex < size; readIndex++){
+            if(data[readIndex] != data[writeIndex-1]){
+                data[writeIndex++] = data[readIndex];
+            }
+        }
+        size = writeIndex;
+    }
+
 }
