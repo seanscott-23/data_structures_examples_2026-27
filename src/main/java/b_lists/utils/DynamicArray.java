@@ -73,15 +73,39 @@ public class DynamicArray {
 
         ensureCapacity();
 
-//        for (int i = size; i > index; i--) {
-//            data[i] = data[i-1];
-//        }
+        for (int i = size; i > index; i--) {
+            data[i] = data[i-1];
+        }
 
         System.arraycopy(data, index, data, index+1, (size-index));
 
         data[index] = value;
         size++;
     }
+
+    public DynamicArray subset(int startIndex, int endIndex){
+        validateIndex(startIndex);
+        validateIndex(endIndex);
+
+        if(startIndex > endIndex){
+            throw new IllegalArgumentException("Start index must be less than or equal to end index");
+        }
+        DynamicArray subset = new DynamicArray();
+        for(int i = startIndex; i <= endIndex; i++){
+            subset.add(data[i]);
+        }
+        return subset;
+    }
+
+    public int lastIndexOf(int target){
+        for(int i = size; i < size-1; i--){
+            if(data[i] == target){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void removeDuplicates(){
         Arrays.sort(data, 0, size);
         int startPoint = 0;

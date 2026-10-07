@@ -31,6 +31,10 @@ public class DynamicArrayTestBed {
         for (int i = 0; i < myList.size(); i++) {
             System.out.println(myList.get(i));
         }
+
+        System.out.println("----------------------------------");
+        System.out.println("Last index of " + 50 + ": " + myList.lastIndexOf(50));
+
     }
 
 }
