@@ -1,5 +1,6 @@
 package b_lists.testApps;
 
+import b_lists.utils.LinkedList;
 import b_lists.utils.LinkedListS;
 
 public class LinkedListAppS {
@@ -33,5 +34,31 @@ public class LinkedListAppS {
             System.out.println("Index " + i + ": " + list.get(i));
         }
 
+        System.out.println("----------------------------------");
+        System.out.println("Data removed: " + list.remove(3));
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("Index " + i + ": " + list.get(i));
+        }
+        System.out.println("----------------------------------");
+        list.add("remove me");
+        list.add("filler");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("Index " + i + ": " + list.get(i));
+        }
+        System.out.println("----------------------------------");
+        System.out.println("Data removed: " + list.remove("remove me"));
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("Index " + i + ": " + list.get(i));
+        }
+        System.out.println("----------------------------------");
+
+        LinkedListS test2 = new LinkedListS();
+        System.out.println("----------------------------------");
+        test2.add("Hi");
+        System.out.println(test2.get(0));
+        System.out.println("Data removed: " + test2.remove(0));
+        for (int i = 0; i < test2.size(); i++) {
+            System.out.println("Index " + i + ": " + test2.get(i));
+        }
     }
 }
