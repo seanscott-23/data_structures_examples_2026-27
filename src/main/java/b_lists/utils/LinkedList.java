@@ -2,6 +2,7 @@ package b_lists.utils;
 
 public class LinkedList {
     private Node first;
+    private Node last;
     private int size;
 
 
@@ -18,16 +19,12 @@ public class LinkedList {
     public void add(String element){
         Node newNode = new Node(element);
 
-        if(size == 0){
+        if(isEmpty()){
             first = newNode;
+            last = newNode;
         }else {
-            Node current = first;
-
-            while (current.next != null) {
-                current = current.next;
-            }
-
-            current.next = newNode;
+            last.next = newNode;
+            last = newNode;
         }
         size++;
     }
@@ -76,6 +73,23 @@ public class LinkedList {
             }
 
             first = newNode;
+        }else {
+
+            Node prev = null;
+            Node current = first;
+
+            for (int i = 0; i < index; i++) {
+                prev = current;
+                current = current.next;
+            }
+
+            newNode.next = current;
+            prev.next = newNode;
         }
+
+        size++;
     }
+
+    // todo: remove(int index) removes the value at the specified index.
+    //  This should RETURN the value originally at that index
 }
