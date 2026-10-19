@@ -68,8 +68,14 @@ public class DynamicArray {
         }
     }
 
+    private void validateInclusiveIndex(int index){
+        if(index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Index " + index + " is outside bounds of list");
+        }
+    }
+
     public void add(int index, int value){
-        validateIndex(index);
+        validateInclusiveIndex(index);
 
         ensureCapacity();
 
