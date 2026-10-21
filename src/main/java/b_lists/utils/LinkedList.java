@@ -63,13 +63,15 @@ public class LinkedList {
 
     public void add(String element, int index){
         if(index < 0 || index > size){
-            throw new IndexOutOfBoundsException("Index " + index + " is outside bounds of array");
+            throw new IndexOutOfBoundsException("Index " + index + " is outside bounds of list");
         }
 
         Node newNode = new Node(element);
         if(index == 0){
-            if(first != null){
+            if(!isEmpty()){
                 newNode.next = first;
+            }else{
+                last = newNode;
             }
 
             first = newNode;
@@ -85,6 +87,15 @@ public class LinkedList {
 
             newNode.next = current;
             prev.next = newNode;
+
+            if(index == size){
+                last = newNode;
+            }
+
+            // We can also detect that we're adding at the end of the list by checking whether current is null:
+            // if(current == null){
+            //      last = newNode;
+            // }
         }
 
         size++;
