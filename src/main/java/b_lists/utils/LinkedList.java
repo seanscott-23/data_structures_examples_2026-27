@@ -48,9 +48,7 @@ public class LinkedList {
     // public String get(int index) - returns the data at the specified position
     // If the supplied index is illegal (< 0 or >= size) then an IndexOutOfBoundsException should be thrown
     public String get(int index){
-        if(index < 0 || index >= size){
-            throw new IndexOutOfBoundsException("Index " + index + " is outside bounds of array");
-        }
+        validateIndexInBoundsExclusive(index);
 
         Node current = first;
         for (int i = 0; i < index; i++) {
@@ -60,11 +58,15 @@ public class LinkedList {
         return current.data;
     }
 
+    private void validateIndexInBoundsExclusive(int index) {
+        if(index < 0 || index >= size){
+            throw new IndexOutOfBoundsException("Index " + index + " is outside bounds of array");
+        }
+    }
+
 
     public void add(String element, int index){
-        if(index < 0 || index > size){
-            throw new IndexOutOfBoundsException("Index " + index + " is outside bounds of list");
-        }
+        validateInBoundsInclusive(index);
 
         Node newNode = new Node(element);
         if(index == 0){
@@ -101,6 +103,129 @@ public class LinkedList {
         size++;
     }
 
+    public int indexOf(String target){
+        validateForNull(target);
+
+        Node current = first;
+        for (int i = 0; i < size; i++) {
+            if(current.data.equalsIgnoreCase(target)){
+                return i;
+            }
+            current = current.next;
+        }
+        return -1;
+    }
+
+    public boolean removeElement(String target){
+        int index = indexOf(target);
+        if(index == -1){
+            return false;
+        }
+
+        remove(index);
+        return true;
+    }
+
+    public boolean remove(String target){
+        validateForNull(target);
+
+        if(isEmpty()){
+            return false;
+        }
+
+        if(target.equals(first.data)){
+            first = first.next;
+
+            if(first == null){
+                last = null;
+            }
+        }else{
+            // Handle where edit is in remainder of list
+            Node current = first;
+            Node prev = null;
+
+            boolean found = false;
+            for (int i = 0; i < size; i++) {
+                if(target.equals(current.data)){
+                    found = true;
+                    break;
+                }else{
+                    prev = current;
+                    current = current.next;
+                }
+            }
+
+            if(!found){
+                return false;
+            }
+
+            // Delete element from list
+            prev.next = current.next;
+            // If element to be deleted is at end of list, update last to the one before current
+            // (i.e. the one before the deleted element)
+            if(current == last) {
+                last = prev;
+            }
+        }
+
+        // Final clean up - reduce size and return removed element
+        size--;
+        return true;
+    }
+
+    private static void validateForNull(String target) {
+        if(target == null){
+            throw new IllegalArgumentException("Cannot search for null");
+        }
+    }
+
+    private void validateInBoundsInclusive(int index) {
+        if(index < 0 || index > size){
+            throw new IndexOutOfBoundsException("Index " + index + " is outside bounds of list");
+        }
+    }
+
     // todo: remove(int index) removes the value at the specified index.
     //  This should RETURN the value originally at that index
+    public String remove(int index){
+        validateIndexInBoundsExclusive(index);
+
+        String removed;
+        // Handle where edit is at start of list
+        if(index == 0){
+            removed = first.data;
+            first = first.next;
+
+            if(first == null){
+                last = null;
+            }
+        }else{
+            // Handle where edit is in remainder of list
+            Node current = first;
+            Node prev = null;
+
+            for (int i = 0; i < index; i++) {
+                prev = current;
+                current = current.next;
+            }
+
+            removed = current.data;
+            // Delete element from list
+            prev.next = current.next;
+            // If deleted index was end of list, update last to the one before current
+            // (i.e. the one before the deleted element)
+            if(index == size-1){
+                last = prev;
+            }
+
+            // Could also detect that we've deleted the last element by checking if current is last
+            // if(current == last){
+            //    last = prev;
+            // }
+        }
+
+        // Final clean up - reduce size and return removed element
+        size--;
+        return removed;
+    }
 }
